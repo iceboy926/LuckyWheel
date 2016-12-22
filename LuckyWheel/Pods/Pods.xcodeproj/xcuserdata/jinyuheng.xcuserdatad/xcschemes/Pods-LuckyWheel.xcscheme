@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '095B4E562146C76AFAEBFE34C978DF47'
+               BlueprintIdentifier = 'A38AEA381488319F3E1D899EAF4D6B5C'
                BlueprintName = 'Pods-LuckyWheel'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-LuckyWheel.a'>
