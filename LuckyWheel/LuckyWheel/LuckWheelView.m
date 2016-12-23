@@ -12,7 +12,7 @@
 #define pi 3.14159265359
 #define DEGREES_TO_RADIANS(degrees)  ((pi * degrees)/ 180)
 #define ARC4RANDOM_MAX      0x100000000
-#define RADAR_ROTATE_SPEED 80.0
+
 
 #import "LuckWheelView.h"
 #import "PointerView.h"
@@ -22,7 +22,6 @@
     CGPoint  centerPoint;
 }
 
-@property (nonatomic, strong)UIButton *centerBtn;
 @property (nonatomic, strong)NSMutableArray *titleLabelArray;
 
 
@@ -48,51 +47,11 @@
 {
     centerPoint = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);
     
-    [self addSubview:self.pointerVC];
-    [self addSubview:self.centerBtn];
-   
-    [self.centerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.center.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(CenterBtnWidth, CenterBtnHeight));
-        
-    }];
 }
 
 
 #pragma mark lazy load
 
-- (UIButton *)centerBtn
-{
-    if(_centerBtn == nil)
-    {
-        _centerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-        _centerBtn.layer.cornerRadius = CenterBtnWidth/2.0;
-        _centerBtn.layer.borderWidth = 1.0;
-        _centerBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        _centerBtn.layer.masksToBounds = YES;
-        [_centerBtn setBackgroundImage:[UIImage imageNamed:@"LuckyCenterButton"] forState:UIControlStateNormal];
-        [_centerBtn setBackgroundImage:[UIImage imageNamed:@"LuckyCenterButtonPressed"] forState:UIControlStateHighlighted];
-        
-        [_centerBtn addTarget:self action:@selector(centerBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
-    }
-    
-    return _centerBtn;
-}
-
-- (PointerView *)pointerVC
-{
-    if(_pointerVC == nil)
-    {
-        
-        _pointerVC = [[PointerView alloc] initWithFrame:CGRectMake(0, centerPoint.y - 10, self.bounds.size.width, 20) withLine:self.radius];
-        
-    }
-    
-    return _pointerVC;
-}
 
 - (NSMutableArray *)titleLabelArray
 {
@@ -106,16 +65,31 @@
 
 #pragma mark Button-Action
 
-- (void)centerBtnClicked:(UIButton *)sender
-{
-    [self startRoll];
-}
 
 
 -(CGPoint) calcCircleCoordinateWithCenter:(CGPoint) center  andWithAngle : (CGFloat) angle andWithRadius: (CGFloat) radius{
     CGFloat x2 = radius*cosf(angle*M_PI/180);
     CGFloat y2 = radius*sinf(angle*M_PI/180);
     return CGPointMake(center.x+x2, center.y+y2);
+}
+
+- (void)setLuckyNumber:(NSInteger)luckyNumber
+{
+    _luckyNumber = luckyNumber;
+    
+    [self setNeedsDisplay];
+}
+
+- (void)setRadius:(CGFloat)radius
+{
+    _radius = radius;
+    
+    [self setNeedsDisplay];
+}
+
+- (void)resetLuckWheel
+{
+    [self setNeedsDisplay];
 }
 
 
@@ -193,11 +167,11 @@
         
         CGFloat  TitleCenterAngle = i*perAngle + perAngle/2.0;
         
-        NSLog(@"startAngle is %f TitleCenterAngle is %f", startAngle, TitleCenterAngle);
+        //NSLog(@"startAngle is %f TitleCenterAngle is %f", startAngle, TitleCenterAngle);
     
         CGPoint TitleCenterPoint = [self calcCircleCoordinateWithCenter:centerPoint andWithAngle: TitleCenterAngle andWithRadius: radius - 20];//CenterRadiusPoint(centerPoint, TitleCenterAngle, radius - 15);
         
-        NSLog(@"title center pos is [%f, %f ]", TitleCenterPoint.x, TitleCenterPoint.y);
+        //NSLog(@"title center pos is [%f, %f ]", TitleCenterPoint.x, TitleCenterPoint.y);
         
         
         [self layoutTitleLabel:[arrayResult objectAtIndex:i] withCenter:TitleCenterPoint];
@@ -243,29 +217,12 @@
     CGFloat R = arc4random()%255, G = arc4random()%255, B = arc4random()%255;
     
     titleLabel.textColor = [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:1];
-    titleLabel.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:24.0];
+    titleLabel.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:26.0];
 
     [self addSubview:titleLabel];
     
-    [self bringSubviewToFront:titleLabel];
-    
 }
 
-- (void)startRoll {
-    CABasicAnimation* rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    BOOL indicatorClockwise = YES;
-
-    rotationAnimation.toValue = [NSNumber numberWithFloat: (indicatorClockwise?1:-1) * M_PI * 2.0 ];
-    rotationAnimation.duration = 360.f/RADAR_ROTATE_SPEED;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = INT_MAX;
-    [self.pointerVC.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-}
-
-- (void)stopRoll {
-    [self.pointerVC.layer removeAnimationForKey:@"rotationAnimation"];
-}
 
 
 

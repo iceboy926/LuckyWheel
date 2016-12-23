@@ -15,6 +15,8 @@
 		10BDEE7B1E0B6731005A542F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10BDEE791E0B6731005A542F /* LaunchScreen.storyboard */; };
 		10BDEE841E0B6D6D005A542F /* LuckWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BDEE831E0B6D6D005A542F /* LuckWheelView.m */; };
 		10BDEE8A1E0B73A1005A542F /* PointerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BDEE891E0B73A1005A542F /* PointerView.m */; };
+		10E968701E0CF82D0034F44A /* Home_refresh_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E9686F1E0CF82D0034F44A /* Home_refresh_bg.png */; };
+		10E968721E0CFAF80034F44A /* radar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E968711E0CFAF80034F44A /* radar_background@2x.png */; };
 		2D2935C1D3BFE06C4B97CC9E /* libPods-LuckyWheel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DAAF9B3529E377B7494C79 /* libPods-LuckyWheel.a */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,8 @@
 		10BDEE891E0B73A1005A542F /* PointerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerView.m; sourceTree = "<group>"; };
 		10BDEE8B1E0B74EC005A542F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ../PrefixHeader.pch; sourceTree = "<group>"; };
 		10BDEE8C1E0B7538005A542F /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
+		10E9686F1E0CF82D0034F44A /* Home_refresh_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home_refresh_bg.png; sourceTree = "<group>"; };
+		10E968711E0CFAF80034F44A /* radar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radar_background@2x.png"; sourceTree = "<group>"; };
 		11DAAF9B3529E377B7494C79 /* libPods-LuckyWheel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LuckyWheel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FBD762BD3BD552E1C4C7092 /* Pods-LuckyWheel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LuckyWheel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LuckyWheel/Pods-LuckyWheel.debug.xcconfig"; sourceTree = "<group>"; };
 		AB3F492C2F9A50EFC630B629 /* Pods-LuckyWheel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LuckyWheel.release.xcconfig"; path = "Pods/Target Support Files/Pods-LuckyWheel/Pods-LuckyWheel.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 				10BDEE771E0B6731005A542F /* Assets.xcassets */,
 				10BDEE791E0B6731005A542F /* LaunchScreen.storyboard */,
 				10BDEE7C1E0B6731005A542F /* Info.plist */,
+				10E968711E0CFAF80034F44A /* radar_background@2x.png */,
+				10E9686F1E0CF82D0034F44A /* Home_refresh_bg.png */,
 				10BDEE6B1E0B6730005A542F /* Supporting Files */,
 			);
 			path = LuckyWheel;
@@ -177,7 +183,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10E968721E0CFAF80034F44A /* radar_background@2x.png in Resources */,
 				10BDEE7B1E0B6731005A542F /* LaunchScreen.storyboard in Resources */,
+				10E968701E0CF82D0034F44A /* Home_refresh_bg.png in Resources */,
 				10BDEE781E0B6731005A542F /* Assets.xcassets in Resources */,
 				10BDEE761E0B6731005A542F /* Main.storyboard in Resources */,
 			);
@@ -354,7 +362,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8FBD762BD3BD552E1C4C7092 /* Pods-LuckyWheel.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				GCC_PREFIX_HEADER = /Users/jinyuheng/Desktop/zuoyongyong_ios/LuckyWheel/LuckyWheel/PrefixHeader.pch;
 				INFOPLIST_FILE = LuckyWheel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -368,7 +377,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB3F492C2F9A50EFC630B629 /* Pods-LuckyWheel.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				GCC_PREFIX_HEADER = /Users/jinyuheng/Desktop/zuoyongyong_ios/LuckyWheel/LuckyWheel/PrefixHeader.pch;
 				INFOPLIST_FILE = LuckyWheel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

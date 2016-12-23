@@ -24,9 +24,6 @@
         self.backgroundColor = [UIColor clearColor];
         self.pointerLength = length;
         
-        CGRect newFrame = self.frame;
-    
-        
 //        self.frame = newFrame;
 //        
 //        self.layer.anchorPoint = CGPointMake(0.5, 0);
@@ -43,47 +40,53 @@
 
 - (void)setup
 {
-    CGRect dialRect = self.bounds;
+    CGRect dialRect = self.frame;
     
     CGFloat layerWidth = CGRectGetWidth(dialRect);
     CGFloat layerHeight = CGRectGetHeight(dialRect);
-    CGFloat tailwidth = layerWidth/5.0;
+    CGFloat tailheight = layerHeight/8.0;
 
     
-    _pointerLayer = [self p_handLayerWithWidth:layerWidth height:layerHeight tailWidth:(CGFloat)tailwidth];
+    _pointerLayer = [self p_handLayerWithWidth:layerWidth height:layerHeight tailHeight:(CGFloat)tailheight];
     
     [self.layer addSublayer:_pointerLayer];
     
 }
 
 
-- (CAShapeLayer *) p_handLayerWithWidth:(CGFloat)width height:(CGFloat)height tailWidth:(CGFloat)tailwidth{
-    CGPoint dialCenter = CGPointMake(width / 2.0, height / 2.0);
+- (CAShapeLayer *) p_handLayerWithWidth:(CGFloat)width height:(CGFloat)height tailHeight:(CGFloat)tailheight{
+    CGPoint dialCenter = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);//CGPointMake(width / 2.0, height / 2.0);
     
-    CGFloat layerWidth = width;
-    CGFloat layerHeight = height;
+    NSLog(@"dialCenter is [%f, %f]", dialCenter.x, dialCenter.y);
+    CGFloat pointWidth = width/2.0;
+    CGFloat pointHeight = height/2.0 - 25;
+    
+    NSLog(@"pointWidth pointHeight is [%f, %f]", pointWidth, pointHeight);
+    
     UIBezierPath *bezierPath = [UIBezierPath bezierPath];
     
     CGPoint addingPoint, controlPoint1, controlPoint2;
-    addingPoint = CGPointMake(dialCenter.x - layerWidth/2.0, dialCenter.y); // 左上顶点
+    addingPoint = CGPointMake(dialCenter.x, dialCenter.y); // 左上顶点
     [bezierPath moveToPoint:addingPoint];
     
     
     
-    CGPoint rightTopPoint = CGPointMake(dialCenter.x + layerWidth/2.0 - tailwidth, dialCenter.y - layerHeight / 2.0); // 右上顶点
-    [bezierPath addLineToPoint:rightTopPoint];
+    CGPoint leftTopPoint = CGPointMake(dialCenter.x - pointWidth/2.0, dialCenter.y - pointHeight + tailheight);
+    
+    //CGPointMake(dialCenter.x + pointWidth - tailwidth, dialCenter.y - pointHeight / 2.0); // 左上顶点
+    [bezierPath addLineToPoint:leftTopPoint];
     
 //    controlPoint1 = CGPointMake(dialCenter.x  - layerHeight * 3.0 / 4.0 - tailLength,dialCenter.y  - layerHeight / 2.0); // 最左端圆弧控制点 1
 //    controlPoint2 = CGPointMake(dialCenter.x  - layerHeight * 3.0 / 4.0 - tailLength,dialCenter.y  + layerHeight / 2.0); // 最左端圆弧控制点 2
     
-    CGPoint rightTailPoint = CGPointMake(dialCenter.x + layerWidth/2.0, dialCenter.y);
+    CGPoint leftTailPoint = CGPointMake(dialCenter.x, dialCenter.y - pointHeight);
     
-    [bezierPath addLineToPoint:rightTailPoint];
+    [bezierPath addLineToPoint:leftTailPoint];
     
     //[bezierPath addCurveToPoint:addingPoint controlPoint1:controlPoint1 controlPoint2:controlPoint2];
-    CGPoint rightBottomPoint = CGPointMake(dialCenter.x + layerWidth/2.0 - tailwidth, dialCenter.y + layerHeight / 2.0); // 右下顶点
+    CGPoint rightTopPoint = CGPointMake(dialCenter.x + pointWidth/2.0, dialCenter.y - pointHeight + tailheight); // 右下顶点
     
-    [bezierPath addLineToPoint:rightBottomPoint];
+    [bezierPath addLineToPoint:rightTopPoint];
 
     
     [bezierPath closePath];
@@ -92,8 +95,8 @@
     shapeLayer.path = bezierPath.CGPath;
     shapeLayer.frame = self.bounds;
     
-    shapeLayer.fillColor = [UIColor greenColor].CGColor;
-    shapeLayer.strokeColor = [UIColor greenColor].CGColor;
+    shapeLayer.fillColor = [UIColor redColor].CGColor;
+    shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
     
     return shapeLayer;
 }
