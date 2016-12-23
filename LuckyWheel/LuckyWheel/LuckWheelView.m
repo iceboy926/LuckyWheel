@@ -36,19 +36,10 @@
     if(self)
     {
         self.backgroundColor = [UIColor clearColor];
-        [self setupView];
     }
     
     return self;
 }
-
-
-- (void)setupView
-{
-    
-    
-}
-
 
 #pragma mark lazy load
 
