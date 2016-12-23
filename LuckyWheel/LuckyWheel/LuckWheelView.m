@@ -45,7 +45,7 @@
 
 - (void)setupView
 {
-    centerPoint = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);
+    
     
 }
 
@@ -96,6 +96,8 @@
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
+    
+    centerPoint = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
 
@@ -213,6 +215,7 @@
     titleLabel.center = centerPos;
     titleLabel.layer.cornerRadius = 20;
     titleLabel.layer.masksToBounds = YES;
+
     
     CGFloat R = arc4random()%255, G = arc4random()%255, B = arc4random()%255;
     
@@ -220,6 +223,13 @@
     titleLabel.font = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:26.0];
 
     [self addSubview:titleLabel];
+    
+//    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//       
+//        make.center.mas_equalTo(centerPos);
+//        make.size.mas_equalTo(CGSizeMake(40, 40));
+//        
+//    }];
     
 }
 

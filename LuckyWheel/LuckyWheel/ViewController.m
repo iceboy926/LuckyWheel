@@ -24,6 +24,17 @@
 
 @implementation ViewController
 
+
+- (BOOL)shouldAutorotate{ // 是否支持旋转
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{ // 支持旋转的方向
+
+    return UIInterfaceOrientationMaskAll;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -50,6 +61,17 @@
         
     }];
     
+    [self.luckWheelVC mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.center.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(MIN(MAX_WIDTH, MAX_HEIGHT), MIN(MAX_WIDTH, MAX_HEIGHT)));
+    }];
+    
+    [self.pointerVC mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.center.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(20, MIN(MAX_WIDTH, MAX_HEIGHT)));
+    }];
     
     [self addRotationGesture];
 }
@@ -73,10 +95,10 @@
     if(_luckWheelVC == nil)
     {
         _luckWheelVC = [[LuckWheelView alloc] initWithFrame:CGRectMake(0, (MAX(MAX_WIDTH,MAX_HEIGHT) - MIN(MAX_WIDTH, MAX_HEIGHT))/2.0, MIN(MAX_WIDTH, MAX_HEIGHT), MIN(MAX_WIDTH, MAX_HEIGHT))];
+
         _luckWheelVC.radius = MIN(MAX_WIDTH, MAX_HEIGHT)/2.0;
         _luckWheelVC.luckyNumber = 18;
         _luckWheelVC.userInteractionEnabled = YES;
-        
     }
     
     return _luckWheelVC;
@@ -196,7 +218,7 @@
 
     rotationAnimation.toValue = [NSNumber numberWithFloat: (blClockwise?1:-1) *(randomInt *2.0*M_PI + randomPI )];
     rotationAnimation.duration = randomDuration;
-    //rotationAnimation.cumulative = YES;
+    rotationAnimation.cumulative = YES;
     //rotationAnimation.repeatCount = INT_MAX;
     //rotationAnimation.repeatDuration = 5.0;
     
@@ -225,6 +247,8 @@
         NSLog(@"animation stop.....");
     }
 }
+
+
 
 
 
