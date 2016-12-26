@@ -57,11 +57,11 @@
 - (CAShapeLayer *) p_handLayerWithWidth:(CGFloat)width height:(CGFloat)height tailHeight:(CGFloat)tailheight{
     CGPoint dialCenter = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);//CGPointMake(width / 2.0, height / 2.0);
     
-    NSLog(@"dialCenter is [%f, %f]", dialCenter.x, dialCenter.y);
+    //NSLog(@"dialCenter is [%f, %f]", dialCenter.x, dialCenter.y);
     CGFloat pointWidth = width/2.0;
     CGFloat pointHeight = height/2.0 - 25;
     
-    NSLog(@"pointWidth pointHeight is [%f, %f]", pointWidth, pointHeight);
+    //NSLog(@"pointWidth pointHeight is [%f, %f]", pointWidth, pointHeight);
     
     UIBezierPath *bezierPath = [UIBezierPath bezierPath];
     
@@ -96,7 +96,12 @@
     shapeLayer.frame = self.bounds;
     
     shapeLayer.fillColor = [UIColor redColor].CGColor;
-    shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
+    shapeLayer.strokeColor = [UIColor redColor].CGColor;
+    
+    shapeLayer.shadowColor = [UIColor blackColor].CGColor;
+    shapeLayer.shadowOffset = CGSizeMake(4.0, 4.0);
+    shapeLayer.shadowOpacity = 1;
+    shapeLayer.shadowRadius = 4.0;
     
     return shapeLayer;
 }

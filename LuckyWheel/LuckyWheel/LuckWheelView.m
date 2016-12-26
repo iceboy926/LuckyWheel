@@ -125,7 +125,7 @@
     NSMutableArray *arrayResult = [self getRandomTitle:arrayNumber];
 
     // 圆的半径
-    CGFloat r = radius;
+    //CGFloat r = radius;
     
     // 转盘每一扇形的角度
     CGFloat angle = M_PI/180 * 360/luckyNum;
