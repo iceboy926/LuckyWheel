@@ -124,6 +124,11 @@
     
     NSMutableArray *arrayResult = [self getRandomTitle:arrayNumber];
 
+    // 圆的半径
+    CGFloat r = radius;
+    
+    // 转盘每一扇形的角度
+    CGFloat angle = M_PI/180 * 360/luckyNum;
     
     CGFloat perAngle = 360.0/luckyNum;
     
@@ -167,7 +172,7 @@
         //NSLog(@"title center pos is [%f, %f ]", TitleCenterPoint.x, TitleCenterPoint.y);
         
         
-        [self layoutTitleLabel:[arrayResult objectAtIndex:i] withCenter:TitleCenterPoint];
+        [self layoutTitleLabel:[arrayResult objectAtIndex:i] withCenter:TitleCenterPoint angle:(CGFloat)angle*i];
 
     }
     
@@ -197,7 +202,7 @@
     return resultArray;
 }
 
-- (void)layoutTitleLabel:(NSString *)title withCenter:(CGPoint)centerPos
+- (void)layoutTitleLabel:(NSString *)title withCenter:(CGPoint)centerPos angle:(CGFloat)angle
 {
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -215,12 +220,13 @@
 
     [self addSubview:titleLabel];
     
-//    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//       
-//        make.center.mas_equalTo(centerPos);
-//        make.size.mas_equalTo(CGSizeMake(40, 40));
-//        
-//    }];
+   
+
+    
+    // 设置锚点（以视图上的哪一点为旋转中心，（0，0）是左下角，（1，1）是右上角，（0.5，0.5）是中心）
+   //titleLabel.layer.anchorPoint = CGPointMake(0.5, 0.5);
+   //titleLabel.layer.position = CGPointMake(self.radius, self.radius);
+    titleLabel.transform = CGAffineTransformMakeRotation(angle);
     
 }
 

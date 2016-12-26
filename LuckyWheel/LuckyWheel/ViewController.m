@@ -11,10 +11,18 @@
 #define CenterBtnHeight CenterBtnWidth
 #define ARC4RANDOM_MAX      0x100000000
 
+#define DEGREES_TO_RADIANS(angle)  ((angle)/180.0 * M_PI)
+#define RADIANS_TO_DEGREES(radians)  ((radians) *(180.0/M_PI))
+
 #import "ViewController.h"
 #import "LuckWheelView.h"
 
-@interface ViewController ()
+@interface ViewController () <UIGestureRecognizerDelegate>
+{
+    CGPoint startLocation;
+    CGPoint endLocation;
+    CGFloat swiperDistance;
+}
 
 @property (nonatomic, strong) LuckWheelView *luckWheelVC;
 @property (nonatomic, strong) PointerView *pointerVC;      //指针
@@ -144,30 +152,22 @@
 - (void)addRotationGesture
 {
     UISwipeGestureRecognizer *swipergesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGestureTouched:)];
-    
     swipergesture.direction = UISwipeGestureRecognizerDirectionRight;
-    
     [self.luckWheelVC addGestureRecognizer:swipergesture];
     
     
     swipergesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGestureTouched:)];
-    
     swipergesture.direction = UISwipeGestureRecognizerDirectionLeft;
-    
     [self.luckWheelVC addGestureRecognizer:swipergesture];
     
     
     swipergesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGestureTouched:)];
-    
     swipergesture.direction = UISwipeGestureRecognizerDirectionUp;
-    
     [self.luckWheelVC addGestureRecognizer:swipergesture];
     
     
     swipergesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGestureTouched:)];
-    
     swipergesture.direction = UISwipeGestureRecognizerDirectionDown;
-    
     [self.luckWheelVC addGestureRecognizer:swipergesture];
     
 }
@@ -175,15 +175,30 @@
 
 - (void)rotationGestureTouched:(UISwipeGestureRecognizer *)swipergesture
 {
+//    if(swipergesture.state == UIGestureRecognizerStateBegan) //开始滑动的点
+//    {
+//        startLocation = [swipergesture locationInView:self.view];
+//        NSLog(@"start location is [%f, %f]", startLocation.x, startLocation.y);
+//    }
+//    else if (swipergesture.state == UIGestureRecognizerStateEnded) //结束滑动的点
+//    {
+//        endLocation = [swipergesture locationInView:self.view];
+//        NSLog(@"end location is [%f, %f]", endLocation.x, endLocation.y);
+//        
+//        swiperDistance = sqrtf(powf(endLocation.x - startLocation.x, 2.0) + powf(endLocation.y - startLocation.y, 2.0));
+//        
+//        NSLog(@"swiper distance is %f", swiperDistance);
+//    }
+//    
     if(swipergesture.direction == UISwipeGestureRecognizerDirectionRight || swipergesture.direction == UISwipeGestureRecognizerDirectionDown)
     {
-        NSLog(@" right ");
+        NSLog(@" swiper to right ");
         
         [self startRollWithClockwise:YES];
     }
     else if(swipergesture.direction == UISwipeGestureRecognizerDirectionLeft || swipergesture.direction == UISwipeGestureRecognizerDirectionUp)
     {
-        NSLog(@" left ");
+        NSLog(@" swiper to left ");
         [self startRollWithClockwise:NO];
     }
     
@@ -198,25 +213,32 @@
     
     //float val = (((double)arc4random() / ARC4RANDOM_MAX) * 2.0);
     
-    int randomInt = (arc4random()%8) + 8;
+    int randomInt = (arc4random()%8) + 8; //第一个随机因子： 随机圈数  (8 - 16)
   
-    float randomPI = (((double)arc4random() / ARC4RANDOM_MAX) * 2.0*M_PI);
+    //float randomPI = (((double)arc4random() / ARC4RANDOM_MAX) * 2.0*M_PI);  //第二个随机因子: 随机角度 (0 - 2*PI)
+    
+    int randomAngle = (arc4random()%360);// 第二个随机因子: 随机弧度 (0 - 360)
+    
+    float randomDistance = swiperDistance; //第三个随机因子 : 滑动的距离
+    
+    
+    float randomRadians = DEGREES_TO_RADIANS(randomAngle);
     
     float randomDuration = ((((double)arc4random() / ARC4RANDOM_MAX) * 10.0f));
-    while(randomDuration < 3.5 || randomDuration > 8.9)
+    while(randomDuration < 3.8 || randomDuration > 8.9)
     {
-        randomDuration = (((double)arc4random() / ARC4RANDOM_MAX) * 10.0);
+        randomDuration = (((double)arc4random() / ARC4RANDOM_MAX) * 10.0); //第三个随机因子：随机时间 (3.5 - 8.9) 秒
     }
     
     
-    NSLog(@"randomPI is %f randomInt is %d randomDuration is %f", randomPI, randomInt, randomDuration);
+    NSLog(@"randomAngle is %d randomRadians is %f randomInt is %d randomDuration is %f",randomAngle, randomRadians, randomInt, randomDuration); //三个随机因子
     
     
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     
 
-    rotationAnimation.toValue = [NSNumber numberWithFloat: (blClockwise?1:-1) *(randomInt *2.0*M_PI + randomPI )];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: (blClockwise?1:-1) *(randomInt *2.0*M_PI + randomRadians + swiperDistance)];
     rotationAnimation.duration = randomDuration;
     rotationAnimation.cumulative = YES;
     //rotationAnimation.repeatCount = INT_MAX;
@@ -245,7 +267,37 @@
     if(flag)
     {
         NSLog(@"animation stop.....");
+        
+        
     }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+    UITouch *touchView = [touches anyObject];
+    
+    startLocation = [touchView locationInView:self.view];
+ 
+    NSLog(@"touches began startlocation is [%f, %f]", startLocation.x, startLocation.y);
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touchView = [touches anyObject];
+    CGPoint currentPoint = [touchView locationInView:self.view];
+    
+    swiperDistance = sqrtf(powf(currentPoint.x - startLocation.x, 2.0) + powf(currentPoint.y - startLocation.y, 2.0));
+    
+    NSLog(@"touches moved currentPoint is [%f, %f] swiperDistance is %f", currentPoint.x, currentPoint.y, swiperDistance);
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touchView = [touches anyObject];
+    CGPoint endPoint = [touchView locationInView:self.view];
+    
+    NSLog(@"touches ended endPoint is [%f, %f]", endPoint.x, endPoint.y);
 }
 
 
