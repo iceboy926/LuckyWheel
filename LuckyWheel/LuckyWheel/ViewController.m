@@ -86,7 +86,7 @@
     
     centerPoint = self.view.center;
     
-    NSLog(@"centerPoint is [%f, %f]", centerPoint.x, centerPoint.y);
+    //NSLog(@"centerPoint is [%f, %f]", centerPoint.x, centerPoint.y);
 }
 
 - (UIImage *)imageFromImage:(UIImage *)image inRect:(CGRect)rect {
@@ -249,7 +249,7 @@
         randomDuration = (((double)arc4random() / ARC4RANDOM_MAX) * 10.0); //第三个随机因子：随机时间 (3.5 - 8.9) 秒
     }
     
-    NSLog(@"randomAngle is %d randomRadians is %f randomInt is %d randomDuration is %f",randomAngle, randomRadians, randomInt, randomDuration); //三个随机因子
+    //NSLog(@"randomAngle is %d randomRadians is %f randomInt is %d randomDuration is %f",randomAngle, randomRadians, randomInt, randomDuration); //三个随机因子
     
     
     CABasicAnimation* rotationAnimation;
@@ -268,13 +268,13 @@
     rotationAnimation.delegate = self;
     [self.luckWheelVC.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    NSLog(@"rotationAnimation toValue is %@", rotationAnimation.toValue);
+    //NSLog(@"rotationAnimation toValue is %@", rotationAnimation.toValue);
 }
 
 
 - (void)animationDidStart:(CAAnimation *)anim
 {
-    NSLog(@"animation start");
+    //NSLog(@"animation start");
 }
 
 /* Called when the animation either completes its active duration or
@@ -286,7 +286,7 @@
 {
     if(flag)
     {
-        NSLog(@"animation stop.....");
+        //NSLog(@"animation stop.....");
     }
 }
 
@@ -297,7 +297,7 @@
     
     startLocation = [touchView locationInView:self.view];
  
-    NSLog(@"touches began startlocation is [%f, %f]", startLocation.x, startLocation.y);
+    //NSLog(@"touches began startlocation is [%f, %f]", startLocation.x, startLocation.y);
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -312,8 +312,8 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touchView = [touches anyObject];
-    CGPoint endPoint = [touchView locationInView:self.view];
+    //UITouch *touchView = [touches anyObject];
+    //CGPoint endPoint = [touchView locationInView:self.view];
     
     //NSLog(@"touches ended endPoint is [%f, %f]", endPoint.x, endPoint.y);
 }

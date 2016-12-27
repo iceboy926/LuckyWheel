@@ -55,7 +55,8 @@
 
 
 - (CAShapeLayer *) p_handLayerWithWidth:(CGFloat)width height:(CGFloat)height tailHeight:(CGFloat)tailheight{
-    CGPoint dialCenter = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);//CGPointMake(width / 2.0, height / 2.0);
+    CGPoint dialCenter = CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0);
+    //CGPointMake(width / 2.0, height / 2.0);
     
     //NSLog(@"dialCenter is [%f, %f]", dialCenter.x, dialCenter.y);
     CGFloat pointWidth = width/2.0;
@@ -65,7 +66,7 @@
     
     UIBezierPath *bezierPath = [UIBezierPath bezierPath];
     
-    CGPoint addingPoint, controlPoint1, controlPoint2;
+    CGPoint addingPoint; //controlPoint1, controlPoint2;
     addingPoint = CGPointMake(dialCenter.x, dialCenter.y); // 左上顶点
     [bezierPath moveToPoint:addingPoint];
     
